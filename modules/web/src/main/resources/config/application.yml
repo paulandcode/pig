@@ -1,0 +1,52 @@
+# 此配置文件会覆盖上面所依赖的其他项目的配置文件, 所以配置以此文件为准
+
+# 公共配置
+logging:
+  level:
+    # 指定日志等级
+    root: info
+server:
+  # 指定端口号
+  port: 8080
+  # 指定context path
+  servlet:
+    context-path:
+mybatis:
+  # MyBatis配置
+  config-location: classpath:config/mybatis-config.xml
+
+# 选择配置
+spring:
+  profiles:
+    # 激活哪一个环境的配置文件
+    active: dev
+#    active: pro
+
+---
+# 开发环境
+spring:
+  profiles: dev
+  shiro:
+    # 允许登录尝试次数
+    allow-count: 500
+    remember-me:
+      # rememberMeCookie加密的密钥, 建议每个项目都不一样, 默认AES算法, 密钥长度(128 256 512)位
+      cipher-key: 4AvVhmFLUs0KTA3Kprsdag==
+    # shiro拦截器会按顺序拦截, /**要设置在最后
+    filter-chain:
+    - /login = authc
+    - /logout = logout
+    - /getCaptcha = anon
+    - /do = anon
+    - /static/** = perms[abs]
+    - /** = user
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/pig?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    username: pig
+    password: pig
+
+---
+# 生产环境
+spring:
+  profiles: pro

@@ -1,0 +1,16 @@
+# 创建用户, 库, 并授权
+create user 'pig' identified by 'pig';
+create database pig DEFAULT CHARSET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+grant all privileges on pig.* to 'pig' identified by 'pig';
+flush privileges;
+
+
+common 工具模块
+core 核心模块: shiro
+root 根
+parent 父
+web 生成的controller,service,entity,dao
+
+
+
+
