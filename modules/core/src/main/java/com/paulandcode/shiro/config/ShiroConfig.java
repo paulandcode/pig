@@ -49,7 +49,7 @@ public class ShiroConfig {
         // 可以将securityManager设置为静态单例的, 这样就可以在任何地方获得当前用户:
         //      Subject currentUser = SecurityUtils.getSubject()
         // 但是, Shiro官方建议不将securityManager设置为静态单例的(占用VM)
-//        SecurityUtils.setSecurityManager(securityManager);
+//        SecurityUtils.setSecurityManager(securityManager)
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // Shiro的核心安全接口, 这个属性是必须的

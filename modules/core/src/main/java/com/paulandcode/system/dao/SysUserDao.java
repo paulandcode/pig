@@ -19,21 +19,46 @@ import java.util.List;
  */
 @Mapper
 public interface SysUserDao extends BaseDao<SysUser> {
+    /**
+     * 通过用户名查询用户
+     *
+     * @param username 用户名
+     * @return com.paulandcode.system.entity.SysUser
+     */
     @Select({"SELECT id, username, password, salt, locked, del_flag",
             "FROM sys_user",
             "WHERE username = #{username}"})
     SysUser queryByUsername(String username);
 
+    /**
+     * 插入用户
+     *
+     * @param sysUser 实体类
+     * @return int
+     */
     @Override
     @Insert({"INSERT INTO sys_user",
             "(id, username, password, salt)",
             "VALUES (#{id}, #{username}, #{password}, #{salt})"})
-    int insert(SysUser entity);
+    int insert(SysUser sysUser);
 
+    /**
+     * 批量删除
+     *
+     * @param ids 主键列表
+     * @return int
+     */
     @Override
     @DeleteProvider(type = Provider.class, method = "deleteBatch")
     int deleteByIds(List<Object> ids);
 
+    /**
+     * 更新数据
+     *
+     * @param sysUser 用户数据
+     * @param ids 主键列表
+     * @return int
+     */
     @Override
     @DeleteProvider(type = Provider.class, method = "updateBatch")
     int updateByIds(SysUser sysUser, List<Object> ids);
