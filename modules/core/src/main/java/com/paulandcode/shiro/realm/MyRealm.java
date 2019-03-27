@@ -43,7 +43,7 @@ public class MyRealm extends AuthorizingRealm {
 //        String userCaptcha = HttpUtils.getRequest().getParameter("captcha");
 //        if (!captcha.equalsIgnoreCase(userCaptcha)) {
 //            log.error("验证码错误");
-//            throw new AuthenticationException();
+//            throw new AuthenticationException();??
 //        }
 
         SysUser user = sysUserService.queryByUsername((String) token.getPrincipal());
