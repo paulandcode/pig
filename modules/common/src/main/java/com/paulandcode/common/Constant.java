@@ -10,7 +10,7 @@ public interface Constant {
     /**
      * 散列算法
      */
-    String HASH_ALGORITHM_NAME = "md5";
+    String HASH_ALGORITHM_NAME = "MD5";
     /**
      * 散列迭代次数
      */

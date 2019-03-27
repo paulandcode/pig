@@ -20,7 +20,7 @@ public class SysUser implements Serializable {
     private String username;
     private String password;
     /**
-     * 密码的盐
+     * 密码的盐, 其作用是: 即使两个相同的原始密码, 加密后的密码也不一样
      */
     private String salt;
     /**

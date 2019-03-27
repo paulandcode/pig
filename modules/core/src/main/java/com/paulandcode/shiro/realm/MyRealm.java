@@ -9,8 +9,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 自定义Realm
@@ -26,7 +25,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 public class MyRealm extends AuthorizingRealm {
-    @Resource
+    @Autowired
     private SysUserService sysUserService;
 
     /**

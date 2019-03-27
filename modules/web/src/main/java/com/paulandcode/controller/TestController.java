@@ -10,19 +10,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 登录测试
+ * 测试
  *
  * @author paulandcode paulandcode@gmail.com
  * @since 2019/3/24 13:18
  */
 @Controller
-public class LogintController {
+public class TestController {
     @Autowired
     SysUserService sysUserService;
 
     @RequestMapping("login")
     public String login() {
         return "login";
+    }
+
+    @RequestMapping("index")
+    public String index() {
+        return "index";
     }
 
     @RequestMapping("do")

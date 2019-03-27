@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserService extends BaseService<SysUser, SysUserDao> {
+    /**
+     * 通过用户名查询用户
+     *
+     * @param username 用户名
+     * @return com.paulandcode.system.entity.SysUser
+     */
     public SysUser queryByUsername(String username) {
         return dao.queryByUsername(username);
     }

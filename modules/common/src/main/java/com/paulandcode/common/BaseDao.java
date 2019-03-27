@@ -1,7 +1,5 @@
 package com.paulandcode.common;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 
 /**

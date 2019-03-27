@@ -23,6 +23,11 @@ public class PasswordHelper {
      */
     private static final RandomNumberGenerator SECURE_RANDOM_NUMBER_GENERATOR = new SecureRandomNumberGenerator();
 
+    /**
+     * 给密码加密, 此处加密方式应该与登录时密码验证一致
+     *
+     * @param sysUser 用户
+     */
     public static void encryptPassword(SysUser sysUser) {
         if (sysUser != null) {
             String password = sysUser.getPassword();

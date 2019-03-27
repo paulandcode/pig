@@ -28,7 +28,7 @@ spring:
   profiles: dev
   shiro:
     # 允许登录尝试次数
-    allow-count: 500
+    allow-count: 5
     remember-me:
       # rememberMeCookie加密的密钥, 建议每个项目都不一样, 默认AES算法, 密钥长度(128 256 512)位
       cipher-key: 4AvVhmFLUs0KTA3Kprsdag==
@@ -41,10 +41,41 @@ spring:
     - /static/** = perms[abs]
     - /** = user
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/pig?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
-    username: pig
-    password: pig
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/pig?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+      username: pig
+      # 在CMD中运行: java -cp druid-1.0.16.jar com.alibaba.druid.filter.config.ConfigTools you_password 即可生成加密后的密码和公钥
+      password: mF+z8nFJu81bnFTnjnr7bSoRkXyinmRbD5F20VzNH98PxpTAxsQzMZ2ywqQQN2T6ybe2l578uGX+7TKs6pvBRA==
+      public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKf/2XMpj19+HJFBR3jl7g0CKOMPpHdlMCJB52XcnhFrWz4tZkqsi2fzGeOfIZ+jg3qkzrtR1ivGJ/EkVIrM2b0CAwEAAQ==
+      connection-properties: config.decrypt=true;config.decrypt.key=${spring.datasource.druid.public-key}
+      initial-size: 5
+      max-active: 30
+      filter:
+        # 配置SQL监控,监控页面地址：http://127.0.0.1:8080/pig/druid
+        stat:
+          enabled: true
+          db-type: mysql
+          # 配置slowSql的标准, 执行时间超过slowSqlMillis的就是慢. slowSqlMillis的缺省值为3000, 也就是3秒.
+          slow-sql-millis: 2000
+          # 允许对SlowSql进行日志记录
+          log-slow-sql: true
+          # 允许sql合并: 例如有2个sql语句:SELECT * FROM t WHERE id = 1, SELECT * FROM t WHERE id = 2. 会被合并成select * from t where id = ?,然后作为一条语句来统计.
+          merge-sql: true
+        # 配置SQL防火墙
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            # 是否允许删除记录
+            delete-allow: false
+            # 是否允许删除表
+            drop-table-allow: false
+            # 允许一次执行多条语句
+            multi-statement-allow: true
+        # 对数据库密码进行加密
+        config:
+          enabled: true
 
 ---
 # 生产环境

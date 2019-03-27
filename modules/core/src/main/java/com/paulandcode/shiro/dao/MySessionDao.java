@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Component
 public class MySessionDao extends EnterpriseCacheSessionDAO {
     @Resource
-    private RealSessionDAO mybatisSessionDAO;
+    private RealSessionDAO realSessionDAO;
 
     public MySessionDao() {
         super();
@@ -36,13 +36,13 @@ public class MySessionDao extends EnterpriseCacheSessionDAO {
     protected Serializable doCreate(Session session) {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
-        mybatisSessionDAO.insert(new ShiroSession(sessionId.toString(), JSON.toJSONString(session)));
+        realSessionDAO.insert(new ShiroSession(sessionId.toString(), JSON.toJSONString(session)));
         return sessionId;
     }
 
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        return JSON.parseObject(mybatisSessionDAO.selectById(sessionId.toString()).getSession(), Session.class);
+        return JSON.parseObject(realSessionDAO.selectById(sessionId.toString()).getSession(), Session.class);
     }
 
     @Override
@@ -50,11 +50,11 @@ public class MySessionDao extends EnterpriseCacheSessionDAO {
         if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
             return;
         }
-        mybatisSessionDAO.updateById(new ShiroSession(session.getId().toString(), JSON.toJSONString(session)));
+        realSessionDAO.updateById(new ShiroSession(session.getId().toString(), JSON.toJSONString(session)));
     }
 
     @Override
     protected void doDelete(Session session) {
-        mybatisSessionDAO.deleteById(session.getId().toString());
+        realSessionDAO.deleteById(session.getId().toString());
     }
 }
