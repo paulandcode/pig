@@ -19,4 +19,8 @@ public interface Constant {
      * 是否使用16进制字符串加密, false则使用base64加密
      */
     boolean STORED_CREDENTIALS_HEX_ENCODED = true;
+    /**
+     * UTF-8编码
+     */
+    String UTF_8 = "UTF-8";
 }

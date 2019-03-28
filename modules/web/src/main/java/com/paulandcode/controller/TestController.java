@@ -1,11 +1,12 @@
 package com.paulandcode.controller;
 
+import com.paulandcode.common.BaseController;
 import com.paulandcode.shiro.credential.PasswordHelper;
-import com.paulandcode.system.entity.SysUser;
-import com.paulandcode.system.service.SysUserService;
+import com.paulandcode.system.entity.User;
+import com.paulandcode.system.service.UserService;
 import com.paulandcode.utils.IDUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,10 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @since 2019/3/24 13:18
  */
 @Controller
-public class TestController {
-    @Autowired
-    SysUserService sysUserService;
-
+@RequestMapping("test")
+public class TestController extends BaseController<User, UserService> {
     @RequestMapping("login")
     public String login() {
         return "login";
@@ -33,10 +32,12 @@ public class TestController {
     @RequestMapping("do")
     @ResponseBody
     public String doIt() {
-        SysUser sysUser = new SysUser(IDUtils.getId(), "admin",
-                "admin", "sa", false, false);
-        PasswordHelper.encryptPassword(sysUser);
-        sysUserService.insert(sysUser);
-        return "login";
+        User user = new User();
+        user.setId(IDUtils.getId());
+        user.setUsername("admin");
+        user.setPassword("admin");
+        PasswordHelper.encryptPassword(user);
+        service.insert(user);
+        return "ok";
     }
 }

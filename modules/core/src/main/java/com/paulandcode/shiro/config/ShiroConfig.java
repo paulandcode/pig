@@ -1,8 +1,8 @@
 package com.paulandcode.shiro.config;
 
 import com.paulandcode.shiro.credential.RetryLimitCredentialsMatcher;
-import com.paulandcode.shiro.dao.MySessionDao;
-import com.paulandcode.shiro.realm.MyRealm;
+import com.paulandcode.shiro.dao.UserSessionDao;
+import com.paulandcode.shiro.realm.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -178,19 +178,19 @@ public class ShiroConfig {
     /**
      * 安全管理器
      *
-     * @param myRealm                 自定义Realm
+     * @param userRealm                 自定义Realm
      * @param ehCacheManager          缓存管理器
      * @param sessionManager          会话管理器
      * @param cookieRememberMeManager RememberMe管理器
      * @return org.apache.shiro.web.mgt.DefaultWebSecurityManager
      */
     @Bean
-    public DefaultWebSecurityManager securityManager(MyRealm myRealm, EhCacheManager ehCacheManager,
+    public DefaultWebSecurityManager securityManager(UserRealm userRealm, EhCacheManager ehCacheManager,
                                                      DefaultWebSessionManager sessionManager,
                                                      CookieRememberMeManager cookieRememberMeManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 配置了单个Realm, 也可以用securityManager.setRealms()配置多个
-        securityManager.setRealm(myRealm);
+        securityManager.setRealm(userRealm);
         securityManager.setCacheManager(ehCacheManager);
         securityManager.setSessionManager(sessionManager);
         securityManager.setRememberMeManager(cookieRememberMeManager);
@@ -272,13 +272,13 @@ public class ShiroConfig {
      * 直接废弃了Servlet容器的会话管理
      *
      * @param sessionValidationScheduler 会话验证调度器
-     * @param mySessionDao               自定义的shiro会话的DAO
+     * @param userSessionDao               自定义的shiro会话的DAO
      * @param sessionIdCookie            存储会话ID的Cookie
      * @return org.apache.shiro.web.session.mgt.DefaultWebSessionManager
      */
     @Bean
     public DefaultWebSessionManager sessionManager(QuartzSessionValidationScheduler sessionValidationScheduler,
-                                                   MySessionDao mySessionDao,
+                                                   UserSessionDao userSessionDao,
                                                    SimpleCookie sessionIdCookie) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         // 设置session过期时间为1小时(单位: 毫秒), 默认为30分钟.
@@ -290,7 +290,7 @@ public class ShiroConfig {
         // 设置会话验证调度器, 默认使用ExecutorServiceSessionValidationScheduler
         sessionManager.setSessionValidationScheduler(sessionValidationScheduler);
         // 设置自定义的shiro会话的DAO
-        sessionManager.setSessionDAO(mySessionDao);
+        sessionManager.setSessionDAO(userSessionDao);
         // 是否启用SessionIdCookie, 默认启用, 若禁用则不会设置SessionIdCookie, 即默认使用了Servlet容器的JSESSIONID,
         // 且通过URL重写(URL中的“;JSESSIONID=id”部分)保存SessionId
         sessionManager.setSessionIdCookieEnabled(true);
@@ -304,25 +304,25 @@ public class ShiroConfig {
      * 自定义realm
      *
      * @param retryLimitCredentialsMatcher 凭证匹配器
-     * @return com.paulandcode.shiro.realm.MyRealm
+     * @return com.paulandcode.shiro.realm.UserRealm
      */
     @Bean
-    public MyRealm myRealm(RetryLimitCredentialsMatcher retryLimitCredentialsMatcher) {
-        MyRealm myRealm = new MyRealm();
+    public UserRealm myRealm(RetryLimitCredentialsMatcher retryLimitCredentialsMatcher) {
+        UserRealm userRealm = new UserRealm();
         // 指定凭证匹配器
-        myRealm.setCredentialsMatcher(retryLimitCredentialsMatcher);
+        userRealm.setCredentialsMatcher(retryLimitCredentialsMatcher);
         // 是否启用缓存, 默认为false
-        myRealm.setCachingEnabled(true);
+        userRealm.setCachingEnabled(true);
         // 是否启用身份验证信息缓存, 默认为false
-        myRealm.setAuthenticationCachingEnabled(true);
+        userRealm.setAuthenticationCachingEnabled(true);
         // 身份认证的缓存名
-        myRealm.setAuthenticationCacheName("authenticationCache");
+        userRealm.setAuthenticationCacheName("authenticationCache");
         // 是否启用授权信息缓存，默认为false
-        myRealm.setAuthorizationCachingEnabled(true);
+        userRealm.setAuthorizationCachingEnabled(true);
         // 授权信息的缓存名
-        myRealm.setAuthorizationCacheName("authorizationCache");
+        userRealm.setAuthorizationCacheName("authorizationCache");
 
-        return myRealm;
+        return userRealm;
     }
 
     /**

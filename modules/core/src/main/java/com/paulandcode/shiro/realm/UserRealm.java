@@ -1,7 +1,7 @@
 package com.paulandcode.shiro.realm;
 
-import com.paulandcode.system.entity.SysUser;
-import com.paulandcode.system.service.SysUserService;
+import com.paulandcode.system.entity.User;
+import com.paulandcode.system.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -24,9 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2019/3/18 16:43
  */
 @Slf4j
-public class MyRealm extends AuthorizingRealm {
+public class UserRealm extends AuthorizingRealm {
     @Autowired
-    private SysUserService sysUserService;
+    private UserService userService;
 
     /**
      * 获得身份认证, 登录时先要认证身份
@@ -45,7 +45,7 @@ public class MyRealm extends AuthorizingRealm {
 //            throw new AuthenticationException();??
 //        }
 
-        SysUser user = sysUserService.queryByUsername((String) token.getPrincipal());
+        User user = userService.queryByUsername((String) token.getPrincipal());
         if (user == null) {
             log.info("帐号不存在! ");
             throw new UnknownAccountException();
@@ -79,7 +79,7 @@ public class MyRealm extends AuthorizingRealm {
             return null;
         }
         // 从身份集合中获取用户账号信息
-        String username = ((SysUser) principals.getPrimaryPrincipal()).getUsername();
+        String username = ((User) principals.getPrimaryPrincipal()).getUsername();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 查询用户角色并在授权信息中设置角色
 //        authorizationInfo.setRoles(userService.getRoles(username));

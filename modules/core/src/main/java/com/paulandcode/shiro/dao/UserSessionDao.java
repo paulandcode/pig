@@ -1,9 +1,8 @@
 package com.paulandcode.shiro.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.paulandcode.shiro.entity.ShiroSession;
+import com.paulandcode.shiro.entity.Session;
 import com.paulandcode.utils.IDUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.stereotype.Component;
@@ -20,41 +19,42 @@ import java.io.Serializable;
  * @since 2019/3/21 20:41
  */
 @Component
-public class MySessionDao extends EnterpriseCacheSessionDAO {
+public class UserSessionDao extends EnterpriseCacheSessionDAO {
     @Resource
     private RealSessionDAO realSessionDAO;
 
-    public MySessionDao() {
+    public UserSessionDao() {
         super();
         // 设置Session的缓存名, 默认是shiro-activeSessionCache
         this.setActiveSessionsCacheName("activeSessionCache");
-        // 用于生成会话ID, 默认是JavaUuidSessionIdGenerator, 即使用java.util.UUID生成, 这里去掉"-", 使生成的ID为32位
+        // 用于生成会话ID, 默认是JavaUuidSessionIdGenerator, 即: 使用java.util.UUID生成, 这里去掉"-", 使生成的ID为32位
         this.setSessionIdGenerator(session -> IDUtils.getId());
     }
 
     @Override
-    protected Serializable doCreate(Session session) {
+    protected Serializable doCreate(org.apache.shiro.session.Session session) {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
-        realSessionDAO.insert(new ShiroSession(sessionId.toString(), JSON.toJSONString(session)));
+        realSessionDAO.insert(new Session(sessionId, JSON.toJSONString(session)));
         return sessionId;
     }
 
     @Override
-    protected Session doReadSession(Serializable sessionId) {
-        return JSON.parseObject(realSessionDAO.selectById(sessionId.toString()).getSession(), Session.class);
+    protected org.apache.shiro.session.Session doReadSession(Serializable sessionId) {
+        return JSON.parseObject(realSessionDAO.selectById(sessionId).getSession(),
+                org.apache.shiro.session.Session.class);
     }
 
     @Override
-    protected void doUpdate(Session session) {
+    protected void doUpdate(org.apache.shiro.session.Session session) {
         if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
             return;
         }
-        realSessionDAO.updateById(new ShiroSession(session.getId().toString(), JSON.toJSONString(session)));
+        realSessionDAO.updateById(new Session(session.getId(), JSON.toJSONString(session)));
     }
 
     @Override
-    protected void doDelete(Session session) {
-        realSessionDAO.deleteById(session.getId().toString());
+    protected void doDelete(org.apache.shiro.session.Session session) {
+        realSessionDAO.deleteById(session.getId());
     }
 }

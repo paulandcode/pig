@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>自动生成链接的测试页面</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
-yes
+<button onclick="c();">增</button>
+<button onclick="d();">删</button>
+<button onclick="u();">改</button>
+<a href="" target="_blank">查</a>
+<br>
+<script>
+    function c() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/GetDataCenter/resolve/link/auto",
+            data: {serNo:"5uR38BQzHF45608Sb1M0", url:"aaa", username:"bbb"},
+            dataType: "json",
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function u() {
+        $.ajax({
+            type: "PUT",
+            url: "sys/user/updateByIds",
+            data: JSON.stringify({entity: {username: "adm", password: "123"}, ids: [1, 2, 3]}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function d() {
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/GetDataCenter/resolve/link/auto",
+            data: {serNo:"5uR38BQzHF45608Sb1M0", id:"0cd7c7e255af40fea1525a7c63ac42c7,2"},
+            dataType: "json",
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
+</script>
 </body>
 </html>

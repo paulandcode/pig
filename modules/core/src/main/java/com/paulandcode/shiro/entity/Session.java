@@ -1,5 +1,6 @@
 package com.paulandcode.shiro.entity;
 
+import com.paulandcode.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -12,9 +13,12 @@ import java.io.Serializable;
  * @since 2019/3/21 22:57
  */
 @Data
-@AllArgsConstructor
-public class ShiroSession implements Serializable {
+public class Session extends BaseEntity {
     private static final long serialVersionUID = -1058318866957363412L;
-    private String id;
     private String session;
+
+    public Session (Object id, String session) {
+        this.id = id;
+        this.session = session;
+    }
 }

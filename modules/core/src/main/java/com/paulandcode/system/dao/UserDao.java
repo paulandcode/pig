@@ -1,7 +1,7 @@
 package com.paulandcode.system.dao;
 
 import com.paulandcode.common.BaseDao;
-import com.paulandcode.system.entity.SysUser;
+import com.paulandcode.system.entity.User;
 import com.paulandcode.utils.StringUtils;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -18,50 +18,47 @@ import java.util.List;
  * @since 2019/3/24 13:39
  */
 @Mapper
-public interface SysUserDao extends BaseDao<SysUser> {
+public interface UserDao extends BaseDao<User> {
     /**
      * 通过用户名查询用户
      *
      * @param username 用户名
-     * @return com.paulandcode.system.entity.SysUser
+     * @return com.paulandcode.system.entity.User
      */
     @Select({"SELECT id, username, password, salt, locked, del_flag",
             "FROM sys_user",
             "WHERE username = #{username}"})
-    SysUser queryByUsername(String username);
+    User queryByUsername(String username);
 
     /**
      * 插入用户
      *
-     * @param sysUser 实体类
-     * @return int
+     * @param user 实体类
      */
     @Override
     @Insert({"INSERT INTO sys_user",
             "(id, username, password, salt)",
             "VALUES (#{id}, #{username}, #{password}, #{salt})"})
-    int insert(SysUser sysUser);
+    void insert(User user);
 
     /**
      * 批量删除
      *
      * @param ids 主键列表
-     * @return int
      */
     @Override
     @DeleteProvider(type = Provider.class, method = "deleteBatch")
-    int deleteByIds(List<Object> ids);
+    void deleteByIds(List<Object> ids);
 
     /**
      * 更新数据
      *
-     * @param sysUser 用户数据
-     * @param ids 主键列表
-     * @return int
+     * @param user 用户数据
+     * @param ids  主键列表
      */
     @Override
     @DeleteProvider(type = Provider.class, method = "updateBatch")
-    int updateByIds(SysUser sysUser, List<Object> ids);
+    void updateByIds(User user, List<Object> ids);
 
     class Provider {
         public static String deleteBatch(List<Object> ids) {
@@ -72,17 +69,17 @@ public interface SysUserDao extends BaseDao<SysUser> {
             }}.toString();
         }
 
-        public static String updateBatch(SysUser sysUser, List<Object> ids) {
+        public static String updateBatch(User user, List<Object> ids) {
             return new SQL() {{
                 UPDATE("sys_user");
-                if (!StringUtils.isEmpty(sysUser.getUsername())) {
-                    SET("username = #{sysUser.username}");
+                if (!StringUtils.isEmpty(user.getUsername())) {
+                    SET("username = #{user.username}");
                 }
-                if (!StringUtils.isEmpty(sysUser.getPassword())) {
-                    SET("password = #{sysUser.password}");
+                if (!StringUtils.isEmpty(user.getPassword())) {
+                    SET("password = #{user.password}");
                 }
-                if (!StringUtils.isEmpty(sysUser.getLocked())) {
-                    SET("password = #{sysUser.locked}");
+                if (!StringUtils.isEmpty(user.getLocked())) {
+                    SET("password = #{user.locked}");
                 }
                 WHERE("id IN " + StringUtils.formatIdArr(ids));
             }}.toString();
