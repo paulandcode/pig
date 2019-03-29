@@ -20,7 +20,19 @@ public interface Constant {
      */
     boolean STORED_CREDENTIALS_HEX_ENCODED = true;
     /**
-     * UTF-8编码
+     * 默认的字符集: UTF-8
      */
-    String UTF_8 = "UTF-8";
+    String DEFAULT_CHARSET = "UTF-8";
+    /**
+     * 响应内容类型为JSON
+     */
+    String APPLICATION_JSON_UTF8 = "application/json; charset=UTF-8";
+    /**
+     * 响应内容类型为HTML
+     */
+    String TEXT_HTML_UTF8 = "text/html; charset=UTF-8";
+    /**
+     * 默认日期格式
+     */
+    String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 }

@@ -69,5 +69,12 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid-spring-boot.version}</version>
         </dependency>
+
+        <!--================== HTML修改无需重启项目
+            (修改HTML后一般要等两三秒才会自动刷新, 可以Ctrl + F9立即刷新) ==================-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
     </dependencies>
 </project>

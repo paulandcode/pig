@@ -1,12 +1,13 @@
 package com.paulandcode.common;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.paulandcode.common.Constant.APPLICATION_JSON_UTF8;
 
 /**
  * 异常处理器, 捕获运行时异常
@@ -20,7 +21,8 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest req, HttpServletResponse resp, Object handler,
                                          Exception e) {
         try {
-            resp.setContentType("application/json; charset=utf-8");
+            // 因为要返回JSON所以响应内容类型设置为JSON
+            resp.setContentType(APPLICATION_JSON_UTF8);
 
 //            if (e instanceof DuplicateKeyException){
 //                r = R.error("数据库中已存在该记录");
@@ -33,7 +35,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             //记录异常日志
             log.error(e.getMessage(), e);
 
-            String json = JSON.toJSONString(R.err(e.getMessage()));
+            String json = Json.toJSONString(R.err(e.getMessage()));
             resp.getWriter().print(json);
         } catch (Exception ex) {
             log.error("ExceptionHandler 异常处理失败! ", ex);

@@ -6,44 +6,154 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
-<button onclick="c();">增</button>
-<button onclick="d();">删</button>
-<button onclick="u();">改</button>
-<a href="" target="_blank">查</a>
-<br>
+<button onclick="create();">插入单个</button>
+<br><br>
+<button onclick="createBatch();">批量插入</button>
+<br><br>
+<button onclick="deleteById();">根据主键删除单个, 逻辑删除</button>
+<br><br>
+<button onclick="deleteByIds();">根据主键删除多个, 逻辑删除</button>
+<br><br>
+<button onclick="updateById();">根据主键更新单个, 主键必须传</button>
+<br><br>
+<button onclick="updateByIds();">根据主键更新多个, 主键必须传</button>
+<br><br>
+<button onclick="info();">根据主键查询单个</button>
+<br><br>
+<button onclick="selectByIds();">根据主键查询多个</button>
+<br><br>
+<button onclick="list();">根据参数查询列表</button>
+<br><br>
 <script>
-    function c() {
+    var id1 = "d5678282508c4edb88c486f80a197c06";
+    var id2 = "3821f3755f0e481aba3674ff5767c123";
+
+
+    function create() {
         $.ajax({
+            url: "test/create",
             type: "POST",
-            url: "http://localhost:8080/GetDataCenter/resolve/link/auto",
-            data: {serNo:"5uR38BQzHF45608Sb1M0", url:"aaa", username:"bbb"},
+            data: JSON.stringify({name: "火遁", age: 9, birthday: "2008-11-06 13:13:02", man: 1}),
             dataType: "json",
-            success: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function u() {
-        $.ajax({
-            type: "PUT",
-            url: "sys/user/updateByIds",
-            data: JSON.stringify({entity: {username: "adm", password: "123"}, ids: [1, 2, 3]}),
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data){
+            success: function (data) {
                 console.log(data);
             }
         });
     }
 
-    function d() {
+    function createBatch() {
         $.ajax({
-            type: "DELETE",
-            url: "http://localhost:8080/GetDataCenter/resolve/link/auto",
-            data: {serNo:"5uR38BQzHF45608Sb1M0", id:"0cd7c7e255af40fea1525a7c63ac42c7,2"},
+            url: "test/createBatch",
+            type: "POST",
+            data: JSON.stringify([{name: "张三", age: 19, birthday: "2018-03-06 13:13:02", man: 1},
+                {name: "李四", age: 20, birthday: "2003-03-06 03:23:02", man: 0},
+                {name: "王五", age: 16, birthday: "2013-03-06 01:13:12", man: 1}]),
             dataType: "json",
-            success: function(data){
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function deleteById() {
+        $.ajax({
+            url: "test/delete/" + id1,
+            type: "DELETE",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function deleteByIds() {
+        $.ajax({
+            url: "test/deleteByIds",
+            type: "DELETE",
+            data: JSON.stringify([id1, id2]),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function updateById() {
+        $.ajax({
+            url: "test/updateById",
+            type: "PUT",
+            data: JSON.stringify({
+                id: id1,
+                age: 9,
+                birthday: "2028-11-06 13:13:02",
+                man: 0
+            }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function updateByIds() {
+        $.ajax({
+            url: "test/updateByIds",
+            type: "PUT",
+            data: JSON.stringify({
+                entity: {
+                    age: 9,
+                    birthday: "2028-11-06 13:13:02",
+                    man: 0
+                },
+                ids: [id1, id2]
+            }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function info() {
+        $.ajax({
+            url: "test/info/" + id1,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function selectByIds() {
+        $.ajax({
+            url: "test/selectByIds/" + id1 + "," + id2,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function list() {
+        $.ajax({
+            url: "test/updateById",
+            type: "GET",
+            data: JSON.stringify({
+                id: "2aa1aeb651f9454e821e8f831b96ba87",
+                age: 9,
+                birthday: "2028-11-06 13:13:02",
+                man: 0
+            }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
                 console.log(data);
             }
         });

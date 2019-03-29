@@ -1,12 +1,12 @@
 package com.paulandcode.common;
 
-import com.paulandcode.utils.IDUtils;
+import com.paulandcode.utils.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 /**
- * 基础增删改查, 在Service实现类上, 要加@Service注解
+ * 基础增删改查, 在Service子类上, 要加@Service注解
  * 这里的接口只返回数据, 没有用com.paulandcode.common.R包装, 方便不同Service实现类之间相互调用
  * 根据需要, Service实现类新加的方法也可以直接返回com.paulandcode.common.R类型
  * 某类型的Service实现类最好只调用对应类型的Dao实现类, 不要调用其他类型的Dao实现类
@@ -26,7 +26,7 @@ public abstract class BaseService<E extends BaseEntity, D extends BaseDao<E>> {
      */
     public void insert(E entity) {
         // 插入前后台通过UUID生成主键
-        entity.setId(IDUtils.getId());
+        entity.setId(IdUtils.getId());
         dao.insert(entity);
     }
 
@@ -38,7 +38,7 @@ public abstract class BaseService<E extends BaseEntity, D extends BaseDao<E>> {
     public void insertBatch(List<E> list) {
         for (E entity : list) {
             // 插入前后台通过UUID生成主键
-            entity.setId(IDUtils.getId());
+            entity.setId(IdUtils.getId());
         }
         dao.insertBatch(list);
     }

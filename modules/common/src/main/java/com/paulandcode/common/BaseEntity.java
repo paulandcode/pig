@@ -27,13 +27,13 @@ public abstract class BaseEntity implements Serializable {
      */
     protected String createBy;
     /**
-     * 创建时间, 默认当前时间
-     */
-    protected Date createDate;
-    /**
      * 更新人ID, 若为系统更新, 则为system
      */
     protected String updateBy;
+    /**
+     * 创建时间, 默认当前时间
+     */
+    protected Date createDate;
     /**
      * 更新时间, 根据当前时间自动更新
      */

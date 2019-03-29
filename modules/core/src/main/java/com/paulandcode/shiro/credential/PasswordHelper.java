@@ -1,6 +1,6 @@
 package com.paulandcode.shiro.credential;
 
-import com.paulandcode.system.entity.User;
+import com.paulandcode.system.entity.UserEntity;
 import com.paulandcode.utils.StringUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -26,11 +26,11 @@ public class PasswordHelper {
     /**
      * 给密码加密, 此处加密方式应该与登录时密码验证一致
      *
-     * @param user 用户
+     * @param userEntity 用户
      */
-    public static void encryptPassword(User user) {
-        if (user != null) {
-            String password = user.getPassword();
+    public static void encryptPassword(UserEntity userEntity) {
+        if (userEntity != null) {
+            String password = userEntity.getPassword();
             if (!StringUtils.isEmpty(password)) {
                 String salt;
                 String newPassword;
@@ -45,8 +45,8 @@ public class PasswordHelper {
                     newPassword = new SimpleHash(HASH_ALGORITHM_NAME, password, ByteSource.Util.bytes(salt),
                             HASH_ITERATIONS).toBase64();
                 }
-                user.setSalt(salt);
-                user.setPassword(newPassword);
+                userEntity.setSalt(salt);
+                userEntity.setPassword(newPassword);
             }
         }
     }

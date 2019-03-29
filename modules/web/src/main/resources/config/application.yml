@@ -4,7 +4,7 @@
 logging:
   level:
     # 指定日志等级
-    root: info
+    root: debug
 server:
   # 指定端口号
   port: 8080
@@ -68,8 +68,8 @@ spring:
           enabled: true
           db-type: mysql
           config:
-            # 是否允许删除记录
-            delete-allow: false
+            # 是否允许删除记录, 一般的数据不建议物理删除, 但是某些一次性数据可以物理删除, 如验证码, session表
+            delete-allow: true
             # 是否允许删除表
             drop-table-allow: false
             # 允许一次执行多条语句

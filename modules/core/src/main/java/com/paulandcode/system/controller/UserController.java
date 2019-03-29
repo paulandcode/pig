@@ -1,7 +1,7 @@
 package com.paulandcode.system.controller;
 
 import com.paulandcode.common.BaseController;
-import com.paulandcode.system.entity.User;
+import com.paulandcode.system.entity.UserEntity;
 import com.paulandcode.system.service.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,5 +14,5 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("sys/user")
-public class UserController extends BaseController<User, UserService> {
+public class UserController extends BaseController<UserEntity, UserService> {
 }

@@ -24,14 +24,14 @@ public interface BaseDao<E extends BaseEntity> {
     void insertBatch(List<E> list);
 
     /**
-     * 根据主键删除单个
+     * 根据主键删除单个, 逻辑删除
      *
      * @param id 主键, 一般为String或Integer
      */
     void deleteById(Object id);
 
     /**
-     * 根据主键删除多个
+     * 根据主键删除多个, 逻辑删除
      *
      * @param ids 主键列表, 一般为String或Integer
      */

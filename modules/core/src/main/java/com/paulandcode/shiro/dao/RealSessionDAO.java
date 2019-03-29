@@ -1,8 +1,10 @@
 package com.paulandcode.shiro.dao;
 
 import com.paulandcode.common.BaseDao;
-import com.paulandcode.shiro.entity.Session;
+import com.paulandcode.shiro.entity.SessionEntity;
 import org.apache.ibatis.annotations.*;
+
+import static com.paulandcode.utils.SqlUtils.*;
 
 /**
  * Shiro会话的DAO
@@ -11,15 +13,22 @@ import org.apache.ibatis.annotations.*;
  * @since 2019/3/21 22:32
  */
 @Mapper
-public interface RealSessionDAO extends BaseDao<Session> {
+public interface RealSessionDAO extends BaseDao<SessionEntity> {
+    String CORE_SHIRO_SESSION = "core_shiro_session";
+
     /**
      * 增
      *
      * @param entity 实体类
      */
     @Override
-    @Insert("INSERT INTO core_shiro_session VALUES (#{id}, #{session})")
-    void insert(Session entity);
+    @Insert({
+        INSERT_INTO,
+            CORE_SHIRO_SESSION,
+        VALUES,
+            "(#{id}, #{session})"
+    })
+    void insert(SessionEntity entity);
 
     /**
      * 删
@@ -27,7 +36,12 @@ public interface RealSessionDAO extends BaseDao<Session> {
      * @param id 主键
      */
     @Override
-    @Delete("DELETE FROM core_shiro_session WHERE id = #{id}")
+    @Delete({
+        DELETE_FROM,
+            CORE_SHIRO_SESSION,
+        WHERE,
+            "id = #{id}"
+    })
     void deleteById(Object id);
 
     /**
@@ -36,16 +50,30 @@ public interface RealSessionDAO extends BaseDao<Session> {
      * @param entity 实体类
      */
     @Override
-    @Update("UPDATE core_shiro_session SET session = #{session} WHERE id = #{id}")
-    void updateById(Session entity);
+    @Update({
+        UPDATE,
+            CORE_SHIRO_SESSION,
+        SET,
+            "session = #{session}",
+        WHERE,
+            "id = #{id}"
+    })
+    void updateById(SessionEntity entity);
 
     /**
      * 查
      *
      * @param id 主键
-     * @return com.paulandcode.shiro.entity.Session
+     * @return com.paulandcode.shiro.entity.SessionEntity
      */
     @Override
-    @Select("SELECT id, session FROM core_shiro_session WHERE id = #{id}")
-    Session selectById(Object id);
+    @Select({
+        SELECT,
+            "id, session",
+        FROM,
+            CORE_SHIRO_SESSION,
+        WHERE,
+            "id = #{id}"
+    })
+    SessionEntity selectById(Object id);
 }

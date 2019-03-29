@@ -13,11 +13,11 @@ import java.io.Serializable;
  * @since 2019/3/21 22:57
  */
 @Data
-public class Session extends BaseEntity {
+public class SessionEntity extends BaseEntity {
     private static final long serialVersionUID = -1058318866957363412L;
     private String session;
 
-    public Session (Object id, String session) {
+    public SessionEntity(Object id, String session) {
         this.id = id;
         this.session = session;
     }

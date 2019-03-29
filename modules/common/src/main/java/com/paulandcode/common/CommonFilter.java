@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
-import static com.paulandcode.common.Constant.UTF_8;
+import static com.paulandcode.common.Constant.DEFAULT_CHARSET;
+import static com.paulandcode.common.Constant.TEXT_HTML_UTF8;
 
 /**
  * 通用过滤器, 用来设置编码和打印请求参数
@@ -32,12 +34,11 @@ public class CommonFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         // Spring Boot默认的请求编码就是UTF-8
-        req.setCharacterEncoding(UTF_8);
+        req.setCharacterEncoding(DEFAULT_CHARSET);
         // Spring Boot默认的响应编码就是UTF-8
-        resp.setCharacterEncoding(UTF_8);
-        // 响应内容类型, 默认为text/html
-        resp.setContentType("text/html; charset=utf-8");
-        log.debug(req.getParameterMap().toString());
+        resp.setCharacterEncoding(DEFAULT_CHARSET);
+        // 响应内容类型默认设置为HTML
+        resp.setContentType(TEXT_HTML_UTF8);
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

@@ -1,8 +1,8 @@
 package com.paulandcode.shiro.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.paulandcode.shiro.entity.Session;
-import com.paulandcode.utils.IDUtils;
+import com.paulandcode.shiro.entity.SessionEntity;
+import com.paulandcode.utils.IdUtils;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.stereotype.Component;
@@ -28,14 +28,14 @@ public class UserSessionDao extends EnterpriseCacheSessionDAO {
         // 设置Session的缓存名, 默认是shiro-activeSessionCache
         this.setActiveSessionsCacheName("activeSessionCache");
         // 用于生成会话ID, 默认是JavaUuidSessionIdGenerator, 即: 使用java.util.UUID生成, 这里去掉"-", 使生成的ID为32位
-        this.setSessionIdGenerator(session -> IDUtils.getId());
+        this.setSessionIdGenerator(session -> IdUtils.getId());
     }
 
     @Override
     protected Serializable doCreate(org.apache.shiro.session.Session session) {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
-        realSessionDAO.insert(new Session(sessionId, JSON.toJSONString(session)));
+        realSessionDAO.insert(new SessionEntity(sessionId, JSON.toJSONString(session)));
         return sessionId;
     }
 
@@ -50,7 +50,7 @@ public class UserSessionDao extends EnterpriseCacheSessionDAO {
         if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
             return;
         }
-        realSessionDAO.updateById(new Session(session.getId(), JSON.toJSONString(session)));
+        realSessionDAO.updateById(new SessionEntity(session.getId(), JSON.toJSONString(session)));
     }
 
     @Override

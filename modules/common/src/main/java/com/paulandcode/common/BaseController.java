@@ -3,14 +3,15 @@ package com.paulandcode.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 基础增删改查, 遵循REST风格, 即: PUT<==>改, POST<==>增, GET<==>查, DELETE<==>删, 并且在路径上传ID
- * 在Controller实现类上要加@RestController注解
- * 方法上的@RequestMapping在多个Controller上重复, 所以Controller实现类上的@RequestMapping必须有且不能重复
+ * 在Controller子类上要加@RestController注解
+ * 方法上的@RequestMapping在多个Controller上重复, 所以Controller子类上的@RequestMapping必须有且不能重复
  * 注意: 下面用到@RequestBody的地方用到ajax时需要传的data和contentType格式如下:
- * data: JSON.stringify({name: "张三", age: 12}),
+ * data: Json.stringify({name: "张三", age: 12}),
  * contentType: "application/json; charset=utf-8",
  *
  * @author paulandcode paulandcode@gmail.com
@@ -45,7 +46,7 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
     }
 
     /**
-     * 根据主键删除单个
+     * 根据主键删除单个, 逻辑删除
      *
      * @param id 主键, 一般为String或Integer
      * @return com.paulandcode.common.R
@@ -57,7 +58,7 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
     }
 
     /**
-     * 根据主键删除多个
+     * 根据主键删除多个, 逻辑删除
      *
      * @param ids 主键列表, 一般为String或Integer
      * @return com.paulandcode.common.R
@@ -107,13 +108,15 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
 
     /**
      * 根据主键查询多个
+     * 注意: 由于这里是GET请求, 所以不能用@RequestBody注解接收
+     * GET请求拼接的URL最多为1024字节, 每个ID长度32字节的话, 可以有32个(不考虑其他字符), 满足参数只有多个ID的情况
      *
-     * @param ids 主键, 一般为String或Integer
+     * @param ids 主键, 以英文逗号隔开
      * @return com.paulandcode.common.R
      */
-    @RequestMapping(value = "selectByIds", method = RequestMethod.GET)
-    public R selectByIds(@RequestBody List<Object> ids) {
-        return R.ok(service.selectByIds(ids));
+    @RequestMapping(value = "selectByIds/{ids}", method = RequestMethod.GET)
+    public R selectByIds(@PathVariable String ids) {
+        return R.ok(service.selectByIds(Arrays.asList(ids.split(","))));
     }
 
     /**
@@ -129,7 +132,7 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
 }
 
 /**
- * 更新的实体类
+ * 更新的实体类, 解决@RequestBody只能传一个对象的问题
  *
  * @author paulandcode paulandcode@gmail.com
  * @since 2019/3/27 17:23
