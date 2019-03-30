@@ -1,7 +1,10 @@
 package com.paulandcode.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Arrays;
 import java.util.List;
@@ -120,14 +123,15 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
     }
 
     /**
-     * 根据参数查询列表
+     * 根据参数查询列表, 默认为分页查询, 且没有其他查询条件, 若要加条件, 可在URL上追加
      *
-     * @param p 多条件查询参数
+     * @param page 页码
+     * @param limit 每页条数
      * @return com.paulandcode.common.R
      */
-    @RequestMapping(value = "list", method = RequestMethod.GET)
-    public R list(@RequestParam P p) {
-        return R.ok(service.selectList(p));
+    @RequestMapping(value = "list/{page}/{limit}", method = RequestMethod.GET)
+    public R list(@PathVariable Integer page, @PathVariable Integer limit) {
+        return R.ok(service.selectList(new P(page, limit)));
     }
 }
 

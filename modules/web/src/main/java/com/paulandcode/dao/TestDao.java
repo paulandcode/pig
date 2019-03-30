@@ -2,7 +2,7 @@ package com.paulandcode.dao;
 
 import com.paulandcode.common.BaseDao;
 import com.paulandcode.common.P;
-import com.paulandcode.utils.SqlUtils;
+import com.paulandcode.utils.SQLUtils;
 import com.paulandcode.entity.TestEntity;
 import com.paulandcode.utils.StringUtils;
 import org.apache.ibatis.annotations.*;
@@ -10,7 +10,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 
-import static com.paulandcode.utils.SqlUtils.*;
+import static com.paulandcode.utils.SQLUtils.*;
 
 /**
  * 测试
@@ -56,9 +56,9 @@ public interface TestDao extends BaseDao<TestEntity> {
             UPDATE,
             TABLE,
             SET,
-            "del_flag = 1",
+            "`del_flag` = 1",
             WHERE,
-            "id = #{id}"
+            "`id` = #{id}"
     })
     void deleteById(Object id);
 
@@ -103,7 +103,7 @@ public interface TestDao extends BaseDao<TestEntity> {
             FROM,
             TABLE,
             WHERE,
-            "id = #{id}"
+            "`id` = #{id}"
     })
     TestEntity selectById(Object id);
 
@@ -124,69 +124,69 @@ public interface TestDao extends BaseDao<TestEntity> {
      * @return java.util.List<E> 查询的列表
      */
     @Override
-//    @DeleteProvider(type = Provider.class, method = "selectList")
+    @SelectProvider(type = Provider.class, method = "selectList")
     List<TestEntity> selectList(P p);
 
     class Provider {
         public static String insert(TestEntity entity) {
             return new SQL() {{
                 INSERT_INTO(TABLE);
-                VALUES("id", "#{id}");
+                VALUES("`id`", "#{id}");
                 if (!StringUtils.isEmpty(entity.getName())) {
-                    VALUES("name", "#{name}");
+                    VALUES("`name`", "#{name}");
                 }
                 if (!StringUtils.isEmpty(entity.getAge())) {
-                    VALUES("age", "#{age}");
+                    VALUES("`age`", "#{age}");
                 }
                 if (!StringUtils.isEmpty(entity.getBirthday())) {
-                    VALUES("birthday", "#{birthday}");
+                    VALUES("`birthday`", "#{birthday}");
                 }
                 if (!StringUtils.isEmpty(entity.getMan())) {
-                    VALUES("man", "#{man}");
+                    VALUES("`man`", "#{man}");
                 }
                 if (!StringUtils.isEmpty(entity.getRemark())) {
-                    VALUES("remark", "#{remark}");
+                    VALUES("`remark`", "#{remark}");
                 }
                 if (!StringUtils.isEmpty(entity.getCreateBy())) {
-                    VALUES("create_by", "#{createBy}");
+                    VALUES("`create_by`", "#{createBy}");
                 }
                 if (!StringUtils.isEmpty(entity.getUpdateBy())) {
-                    VALUES("update_by", "#{updateBy}");
+                    VALUES("`update_by`", "#{updateBy}");
                 }
                 if (!StringUtils.isEmpty(entity.getCreateDate())) {
-                    VALUES("create_date", "#{createDate}");
+                    VALUES("`create_date`", "#{createDate}");
                 }
                 if (!StringUtils.isEmpty(entity.getUpdateDate())) {
-                    VALUES("update_date", "#{updateDate}");
+                    VALUES("`update_date`", "#{updateDate}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn1())) {
-                    VALUES("column1", "#{column1}");
+                    VALUES("`column1`", "#{column1}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn2())) {
-                    VALUES("column2", "#{column2}");
+                    VALUES("`column2`", "#{column2}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn3())) {
-                    VALUES("column3", "#{column3}");
+                    VALUES("`column3`", "#{column3}");
                 }
                 if (!StringUtils.isEmpty(entity.getDelFlag())) {
-                    VALUES("del_flag", "#{delFlag}");
+                    VALUES("`del_flag`", "#{delFlag}");
                 }
             }}.toString();
         }
 
         public static String insertBatch(@Param("list") List<TestEntity> list) {
-            return INSERT_INTO + " " +
+            return INSERT_INTO +
                     TABLE +
-                    " (" + INSERT_COLUMNS + ") " +
-                    VALUES + " " +
+                    " (" + INSERT_COLUMNS + ")" +
+                    VALUES +
                     columnsToValueColumnsBatch(INSERT_COLUMNS, list.size());
         }
 
         public static String deleteBatch(@Param("ids") List<Object> ids) {
             return new SQL() {{
                 UPDATE(TABLE);
-                SET("del_flag = 1");
-                WHERE("id IN " + SqlUtils.formatIdArr(ids));
+                SET("`del_flag` = 1");
+                WHERE("`id`" + IN + SQLUtils.formatIdList(ids));
             }}.toString();
         }
 
@@ -194,45 +194,45 @@ public interface TestDao extends BaseDao<TestEntity> {
             return new SQL() {{
                 UPDATE(TABLE);
                 if (!StringUtils.isEmpty(entity.getName())) {
-                    SET("name = #{name}");
+                    SET("`name` = #{name}");
                 }
                 if (!StringUtils.isEmpty(entity.getAge())) {
-                    SET("age = #{age}");
+                    SET("`age` = #{age}");
                 }
                 if (!StringUtils.isEmpty(entity.getBirthday())) {
-                    SET("birthday = #{birthday}");
+                    SET("`birthday` = #{birthday}");
                 }
                 if (!StringUtils.isEmpty(entity.getMan())) {
-                    SET("man = #{man}");
+                    SET("`man` = #{man}");
                 }
                 if (!StringUtils.isEmpty(entity.getRemark())) {
-                    SET("remark = #{remark}");
+                    SET("`remark` = #{remark}");
                 }
                 if (!StringUtils.isEmpty(entity.getCreateBy())) {
-                    SET("create_by = #{createBy}");
+                    SET("`create_by` = #{createBy}");
                 }
                 if (!StringUtils.isEmpty(entity.getUpdateBy())) {
-                    SET("update_by = #{updateBy}");
+                    SET("`update_by` = #{updateBy}");
                 }
                 if (!StringUtils.isEmpty(entity.getCreateDate())) {
-                    SET("create_date = #{createDate}");
+                    SET("`create_date` = #{createDate}");
                 }
                 if (!StringUtils.isEmpty(entity.getUpdateDate())) {
-                    SET("update_date = #{updateDate}");
+                    SET("`update_date` = #{updateDate}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn1())) {
-                    SET("column1 = #{column1}");
+                    SET("`column1` = #{column1}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn2())) {
-                    SET("column2 = #{column2}");
+                    SET("`column2` = #{column2}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn3())) {
-                    SET("column3 = #{column3}");
+                    SET("`column3` = #{column3}");
                 }
                 if (!StringUtils.isEmpty(entity.getDelFlag())) {
-                    SET("del_flag = #{delFlag}");
+                    SET("`del_flag` = #{delFlag}");
                 }
-                WHERE("id = #{id}");
+                WHERE("`id` = #{id}");
             }}.toString();
         }
 
@@ -241,45 +241,45 @@ public interface TestDao extends BaseDao<TestEntity> {
             return new SQL() {{
                 UPDATE(TABLE);
                 if (!StringUtils.isEmpty(entity.getName())) {
-                    SET("name = #{entity.name}");
+                    SET("`name` = #{entity.name}");
                 }
                 if (!StringUtils.isEmpty(entity.getAge())) {
-                    SET("age = #{entity.age}");
+                    SET("`age` = #{entity.age}");
                 }
                 if (!StringUtils.isEmpty(entity.getBirthday())) {
-                    SET("birthday = #{entity.birthday}");
+                    SET("`birthday` = #{entity.birthday}");
                 }
                 if (!StringUtils.isEmpty(entity.getMan())) {
-                    SET("man = #{entity.man}");
+                    SET("`man` = #{entity.man}");
                 }
                 if (!StringUtils.isEmpty(entity.getRemark())) {
-                    SET("remark = #{entity.remark}");
+                    SET("`remark` = #{entity.remark}");
                 }
                 if (!StringUtils.isEmpty(entity.getCreateBy())) {
-                    SET("create_by = #{entity.createBy}");
+                    SET("`create_by` = #{entity.createBy}");
                 }
                 if (!StringUtils.isEmpty(entity.getUpdateBy())) {
-                    SET("update_by = #{entity.updateBy}");
+                    SET("`update_by` = #{entity.updateBy}");
                 }
                 if (!StringUtils.isEmpty(entity.getCreateDate())) {
-                    SET("create_date = #{entity.createDate}");
+                    SET("`create_date` = #{entity.createDate}");
                 }
                 if (!StringUtils.isEmpty(entity.getUpdateDate())) {
-                    SET("update_date = #{entity.updateDate}");
+                    SET("`update_date` = #{entity.updateDate}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn1())) {
-                    SET("column1 = #{entity.column1}");
+                    SET("`column1` = #{entity.column1}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn2())) {
-                    SET("column2 = #{entity.column2}");
+                    SET("`column2` = #{entity.column2}");
                 }
                 if (!StringUtils.isEmpty(entity.getColumn3())) {
-                    SET("column3 = #{entity.column3}");
+                    SET("`column3` = #{entity.column3}");
                 }
                 if (!StringUtils.isEmpty(entity.getDelFlag())) {
-                    SET("del_flag = #{entity.delFlag}");
+                    SET("`del_flag` = #{entity.delFlag}");
                 }
-                WHERE("id IN " + SqlUtils.formatIdArr(ids));
+                WHERE("`id`" + IN + SQLUtils.formatIdList(ids));
             }}.toString();
         }
 
@@ -287,8 +287,16 @@ public interface TestDao extends BaseDao<TestEntity> {
             return new SQL() {{
                 SELECT(SELECT_COLUMNS);
                 FROM(TABLE);
-                WHERE("id IN " + SqlUtils.formatIdArr(ids));
+                WHERE("`id`" + IN + SQLUtils.formatIdList(ids));
             }}.toString();
+        }
+
+        public static String selectList(P p) {
+            return SELECT +
+                    SELECT_COLUMNS +
+                    FROM +
+                    TABLE +
+                    LIMIT + p.getOffset() + ", " + p.getLimit();
         }
     }
 }

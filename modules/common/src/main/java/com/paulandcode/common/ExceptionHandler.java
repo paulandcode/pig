@@ -24,6 +24,10 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             // 因为要返回JSON所以响应内容类型设置为JSON
             resp.setContentType(APPLICATION_JSON_UTF8);
 
+            // NumberFormatException
+            // CommonException
+
+
 //            if (e instanceof DuplicateKeyException){
 //                r = R.error("数据库中已存在该记录");
 //            }else if(e instanceof AuthorizationException){

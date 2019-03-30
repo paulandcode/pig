@@ -8,7 +8,7 @@ import java.util.UUID;
  * @author paulandcode paulandcode@gmail.com
  * @since 2019/3/21 20:55
  */
-public class IdUtils {
+public class IDUtils {
     /**
      * 生成32位UUID
      *

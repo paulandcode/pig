@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>自动生成链接的测试页面</title>
+    <title>测试页面</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 <button onclick="create();">插入单个</button>
 <br><br>
-<button onclick="createBatch();">批量插入</button>
+<button onclick="createBatch();">插入多个</button>
 <br><br>
 <button onclick="deleteById();">根据主键删除单个, 逻辑删除</button>
 <br><br>
@@ -27,7 +27,6 @@
 <script>
     var id1 = "d5678282508c4edb88c486f80a197c06";
     var id2 = "3821f3755f0e481aba3674ff5767c123";
-
 
     function create() {
         $.ajax({
@@ -143,16 +142,9 @@
 
     function list() {
         $.ajax({
-            url: "test/updateById",
+            url: "test/list/1/2",
             type: "GET",
-            data: JSON.stringify({
-                id: "2aa1aeb651f9454e821e8f831b96ba87",
-                age: 9,
-                birthday: "2028-11-06 13:13:02",
-                man: 0
-            }),
             dataType: "json",
-            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 console.log(data);
             }

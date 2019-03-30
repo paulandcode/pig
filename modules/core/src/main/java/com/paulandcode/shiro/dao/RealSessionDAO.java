@@ -4,7 +4,7 @@ import com.paulandcode.common.BaseDao;
 import com.paulandcode.shiro.entity.SessionEntity;
 import org.apache.ibatis.annotations.*;
 
-import static com.paulandcode.utils.SqlUtils.*;
+import static com.paulandcode.utils.SQLUtils.*;
 
 /**
  * Shiro会话的DAO
@@ -14,7 +14,8 @@ import static com.paulandcode.utils.SqlUtils.*;
  */
 @Mapper
 public interface RealSessionDAO extends BaseDao<SessionEntity> {
-    String CORE_SHIRO_SESSION = "core_shiro_session";
+    String TABLE = "core_shiro_session";
+    String SELECT_COLUMNS = "`id`, `session`";
 
     /**
      * 增
@@ -23,9 +24,9 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      */
     @Override
     @Insert({
-        INSERT_INTO,
-            CORE_SHIRO_SESSION,
-        VALUES,
+            INSERT_INTO,
+            TABLE,
+            VALUES,
             "(#{id}, #{session})"
     })
     void insert(SessionEntity entity);
@@ -37,10 +38,10 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      */
     @Override
     @Delete({
-        DELETE_FROM,
-            CORE_SHIRO_SESSION,
-        WHERE,
-            "id = #{id}"
+            DELETE_FROM,
+            TABLE,
+            WHERE,
+            "`id` = #{id}"
     })
     void deleteById(Object id);
 
@@ -51,12 +52,12 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      */
     @Override
     @Update({
-        UPDATE,
-            CORE_SHIRO_SESSION,
-        SET,
-            "session = #{session}",
-        WHERE,
-            "id = #{id}"
+            UPDATE,
+            TABLE,
+            SET,
+            "`session` = #{session}",
+            WHERE,
+            "`id` = #{id}"
     })
     void updateById(SessionEntity entity);
 
@@ -68,12 +69,12 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      */
     @Override
     @Select({
-        SELECT,
-            "id, session",
-        FROM,
-            CORE_SHIRO_SESSION,
-        WHERE,
-            "id = #{id}"
+            SELECT,
+            SELECT_COLUMNS,
+            FROM,
+            TABLE,
+            WHERE,
+            "`id` = #{id}"
     })
     SessionEntity selectById(Object id);
 }

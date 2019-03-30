@@ -4,7 +4,7 @@ import com.paulandcode.common.BaseController;
 import com.paulandcode.shiro.credential.PasswordHelper;
 import com.paulandcode.system.entity.UserEntity;
 import com.paulandcode.system.service.UserService;
-import com.paulandcode.utils.IdUtils;
+import com.paulandcode.utils.IDUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +32,7 @@ public class LoginController extends BaseController<UserEntity, UserService> {
     @ResponseBody
     public String doIt() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(IdUtils.getId());
+        userEntity.setId(IDUtils.getId());
         userEntity.setUsername("admin");
         userEntity.setPassword("admin");
         PasswordHelper.encryptPassword(userEntity);

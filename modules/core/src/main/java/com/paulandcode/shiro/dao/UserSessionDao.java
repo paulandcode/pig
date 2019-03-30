@@ -2,7 +2,7 @@ package com.paulandcode.shiro.dao;
 
 import com.alibaba.fastjson.JSON;
 import com.paulandcode.shiro.entity.SessionEntity;
-import com.paulandcode.utils.IdUtils;
+import com.paulandcode.utils.IDUtils;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class UserSessionDao extends EnterpriseCacheSessionDAO {
         // 设置Session的缓存名, 默认是shiro-activeSessionCache
         this.setActiveSessionsCacheName("activeSessionCache");
         // 用于生成会话ID, 默认是JavaUuidSessionIdGenerator, 即: 使用java.util.UUID生成, 这里去掉"-", 使生成的ID为32位
-        this.setSessionIdGenerator(session -> IdUtils.getId());
+        this.setSessionIdGenerator(session -> IDUtils.getId());
     }
 
     @Override

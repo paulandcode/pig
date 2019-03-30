@@ -1,9 +1,10 @@
-import com.paulandcode.utils.SqlUtils;
+import com.paulandcode.common.P;
 
 public class Test {
 
     public static void main(String[] args) {
-        String a = "id, del_flag";
-        System.out.println(SqlUtils.columnsToValueColumnsBatch(a,  2));
+        P p = new P().put("a", "aaa").setPageAndLimit(1, 2);
+        System.out.println(p);
+        System.out.println(p.get("a"));
     }
 }

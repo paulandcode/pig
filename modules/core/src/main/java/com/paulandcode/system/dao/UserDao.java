@@ -1,7 +1,7 @@
 package com.paulandcode.system.dao;
 
 import com.paulandcode.common.BaseDao;
-import com.paulandcode.utils.SqlUtils;
+import com.paulandcode.utils.SQLUtils;
 import com.paulandcode.system.entity.UserEntity;
 import com.paulandcode.utils.StringUtils;
 import org.apache.ibatis.annotations.*;
@@ -9,7 +9,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 
-import static com.paulandcode.utils.SqlUtils.*;
+import static com.paulandcode.utils.SQLUtils.*;
 
 /**
  * 系统用户DAO
@@ -22,7 +22,8 @@ public interface UserDao extends BaseDao<UserEntity> {
     /**
      * 系统用户表名
      */
-    String CORE_SYS_USER = "core_sys_user";
+    String TABLE = "core_sys_user";
+    String SELECT_COLUMNS = "`id`, `username`, `password`, `salt`, `locked`, `del_flag`";
 
     /**
      * 通过用户名查询用户
@@ -31,12 +32,12 @@ public interface UserDao extends BaseDao<UserEntity> {
      * @return com.paulandcode.system.entity.UserEntity
      */
     @Select({
-        SELECT,
-            "id, username, password, salt, locked, del_flag",
-        FROM,
-            CORE_SYS_USER,
-        WHERE,
-            "username = #{username}"
+            SELECT,
+            SELECT_COLUMNS,
+            FROM,
+            TABLE,
+            WHERE,
+            "`username` = #{username}"
     })
     UserEntity queryByUsername(String username);
 
@@ -47,11 +48,11 @@ public interface UserDao extends BaseDao<UserEntity> {
      */
     @Override
     @Insert({
-        INSERT_INTO,
-            CORE_SYS_USER,
-        "(id, username, password, salt)",
+            INSERT_INTO,
+            TABLE,
+            "(`id`, `username`, `password`, `salt`)",
             VALUES,
-        "(#{id}, #{username}, #{password}, #{salt})"
+            "(#{id}, #{username}, #{password}, #{salt})"
     })
     void insert(UserEntity entity);
 
@@ -68,7 +69,7 @@ public interface UserDao extends BaseDao<UserEntity> {
      * 更新数据
      *
      * @param entity 用户数据
-     * @param ids  主键列表
+     * @param ids    主键列表
      */
     @Override
     @DeleteProvider(type = Provider.class, method = "updateBatch")
@@ -77,9 +78,9 @@ public interface UserDao extends BaseDao<UserEntity> {
     class Provider {
         public static String deleteBatch(List<Object> ids) {
             return new SQL() {{
-                UPDATE(CORE_SYS_USER);
-                SET("del_flag = 1");
-                WHERE("id IN " + SqlUtils.formatIdArr(ids));
+                UPDATE(TABLE);
+                SET("`del_flag` = 1");
+                WHERE("`id`" + IN + SQLUtils.formatIdList(ids));
             }}.toString();
         }
 
@@ -87,23 +88,23 @@ public interface UserDao extends BaseDao<UserEntity> {
          * 批量更新, 当有多个参数时, 此处和上面都要用@Param
          *
          * @param entity 用户
-         * @param ids 主键列表
+         * @param ids    主键列表
          * @return java.lang.String
          */
         public static String updateBatch(@Param("entity") UserEntity entity,
                                          @Param("ids") List<Object> ids) {
             return new SQL() {{
-                UPDATE(CORE_SYS_USER);
+                UPDATE(TABLE);
                 if (!StringUtils.isEmpty(entity.getUsername())) {
-                    SET("username = #{entity.username}");
+                    SET("`username` = #{entity.username}");
                 }
                 if (!StringUtils.isEmpty(entity.getPassword())) {
-                    SET("password = #{entity.password}");
+                    SET("`password` = #{entity.password}");
                 }
                 if (!StringUtils.isEmpty(entity.getLocked())) {
-                    SET("password = #{entity.locked}");
+                    SET("`password` = #{entity.locked}");
                 }
-                WHERE("id IN " + SqlUtils.formatIdArr(ids));
+                WHERE("`id`" + IN + SQLUtils.formatIdList(ids));
             }}.toString();
         }
     }

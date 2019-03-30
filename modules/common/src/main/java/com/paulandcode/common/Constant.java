@@ -35,4 +35,16 @@ public interface Constant {
      * 默认日期格式
      */
     String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 前端传来的分页参数, 页码
+     */
+    String PAGE = "page";
+    /**
+     * 前端传来的分页参数, 每页显示条数
+     */
+    String LIMIT = "limit";
+    /**
+     * 逗号, 后面不带空格
+     */
+    String COMMA = ",";
 }

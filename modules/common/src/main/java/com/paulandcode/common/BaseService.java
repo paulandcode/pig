@@ -1,6 +1,6 @@
 package com.paulandcode.common;
 
-import com.paulandcode.utils.IdUtils;
+import com.paulandcode.utils.IDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class BaseService<E extends BaseEntity, D extends BaseDao<E>> {
      */
     public void insert(E entity) {
         // 插入前后台通过UUID生成主键
-        entity.setId(IdUtils.getId());
+        entity.setId(IDUtils.getId());
         dao.insert(entity);
     }
 
@@ -38,7 +38,7 @@ public abstract class BaseService<E extends BaseEntity, D extends BaseDao<E>> {
     public void insertBatch(List<E> list) {
         for (E entity : list) {
             // 插入前后台通过UUID生成主键
-            entity.setId(IdUtils.getId());
+            entity.setId(IDUtils.getId());
         }
         dao.insertBatch(list);
     }
