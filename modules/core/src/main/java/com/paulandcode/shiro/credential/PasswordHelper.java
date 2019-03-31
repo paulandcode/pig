@@ -1,15 +1,13 @@
 package com.paulandcode.shiro.credential;
 
-import com.paulandcode.system.entity.UserEntity;
+import com.paulandcode.system.entity.CoreSysUserEntity;
 import com.paulandcode.utils.StringUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
-import static com.paulandcode.common.Constant.HASH_ALGORITHM_NAME;
-import static com.paulandcode.common.Constant.HASH_ITERATIONS;
-import static com.paulandcode.common.Constant.STORED_CREDENTIALS_HEX_ENCODED;
+import static com.paulandcode.common.Constant.*;
 
 /**
  * 带有重试密码次数限制的凭证匹配器
@@ -26,11 +24,11 @@ public class PasswordHelper {
     /**
      * 给密码加密, 此处加密方式应该与登录时密码验证一致
      *
-     * @param userEntity 用户
+     * @param coreSysUserEntity 用户
      */
-    public static void encryptPassword(UserEntity userEntity) {
-        if (userEntity != null) {
-            String password = userEntity.getPassword();
+    public static void encryptPassword(CoreSysUserEntity coreSysUserEntity) {
+        if (coreSysUserEntity != null) {
+            String password = coreSysUserEntity.getPassword();
             if (!StringUtils.isEmpty(password)) {
                 String salt;
                 String newPassword;
@@ -38,15 +36,13 @@ public class PasswordHelper {
                 // 16进制字符串加密用toHex()方法，base64加密用toBase64()方法
                 if (STORED_CREDENTIALS_HEX_ENCODED) {
                     salt = byteSource.toHex();
-                    newPassword = new SimpleHash(HASH_ALGORITHM_NAME, password, ByteSource.Util.bytes(salt),
-                            HASH_ITERATIONS).toHex();
+                    newPassword = new SimpleHash(HASH_ALGORITHM_NAME, password, ByteSource.Util.bytes(salt), HASH_ITERATIONS).toHex();
                 } else {
                     salt = byteSource.toBase64();
-                    newPassword = new SimpleHash(HASH_ALGORITHM_NAME, password, ByteSource.Util.bytes(salt),
-                            HASH_ITERATIONS).toBase64();
+                    newPassword = new SimpleHash(HASH_ALGORITHM_NAME, password, ByteSource.Util.bytes(salt), HASH_ITERATIONS).toBase64();
                 }
-                userEntity.setSalt(salt);
-                userEntity.setPassword(newPassword);
+                coreSysUserEntity.setSalt(salt);
+                coreSysUserEntity.setPassword(newPassword);
             }
         }
     }

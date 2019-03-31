@@ -1,20 +1,19 @@
 package com.paulandcode.shiro.dao;
 
-import com.paulandcode.common.BaseDao;
 import com.paulandcode.shiro.entity.SessionEntity;
 import org.apache.ibatis.annotations.*;
 
 import static com.paulandcode.utils.SQLUtils.*;
 
 /**
- * Shiro会话的DAO
+ * Shiro会话的DAO, 这是个不继承BaseDao的例子
  *
  * @author paulandcode paulandcode@gmail.com
  * @since 2019/3/21 22:32
  */
 @Mapper
-public interface RealSessionDAO extends BaseDao<SessionEntity> {
-    String TABLE = "core_shiro_session";
+public interface RealSessionDAO {
+    String TABLE_NAME = "core_shiro_session";
     String SELECT_COLUMNS = "`id`, `session`";
 
     /**
@@ -22,10 +21,9 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      *
      * @param entity 实体类
      */
-    @Override
     @Insert({
             INSERT_INTO,
-            TABLE,
+            TABLE_NAME,
             VALUES,
             "(#{id}, #{session})"
     })
@@ -36,24 +34,22 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      *
      * @param id 主键
      */
-    @Override
     @Delete({
             DELETE_FROM,
-            TABLE,
+            TABLE_NAME,
             WHERE,
             "`id` = #{id}"
     })
-    void deleteById(Object id);
+    void deleteById(String id);
 
     /**
      * 改
      *
      * @param entity 实体类
      */
-    @Override
     @Update({
             UPDATE,
-            TABLE,
+            TABLE_NAME,
             SET,
             "`session` = #{session}",
             WHERE,
@@ -67,14 +63,13 @@ public interface RealSessionDAO extends BaseDao<SessionEntity> {
      * @param id 主键
      * @return com.paulandcode.shiro.entity.SessionEntity
      */
-    @Override
     @Select({
             SELECT,
             SELECT_COLUMNS,
             FROM,
-            TABLE,
+            TABLE_NAME,
             WHERE,
             "`id` = #{id}"
     })
-    SessionEntity selectById(Object id);
+    SessionEntity selectById(String id);
 }

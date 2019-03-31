@@ -2,10 +2,7 @@ package com.paulandcode.system.entity;
 
 
 import com.paulandcode.common.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * 系统用户
@@ -14,7 +11,7 @@ import java.io.Serializable;
  * @since 2019/3/18 16:51
  */
 @Data
-public class UserEntity extends BaseEntity {
+public class CoreSysUserEntity extends BaseEntity {
     private static final long serialVersionUID = -4419074652204830866L;
     /**
      * 用户名

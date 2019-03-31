@@ -24,9 +24,7 @@ import org.springframework.context.annotation.DependsOn;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.paulandcode.common.Constant.HASH_ALGORITHM_NAME;
-import static com.paulandcode.common.Constant.HASH_ITERATIONS;
-import static com.paulandcode.common.Constant.STORED_CREDENTIALS_HEX_ENCODED;
+import static com.paulandcode.common.Constant.*;
 
 /**
  * Shiro配置
@@ -44,8 +42,7 @@ public class ShiroConfig {
      * @return org.apache.shiro.spring.web.ShiroFilterFactoryBean
      */
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager,
-                                                         ShiroProperties shiroProperties) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager, ShiroProperties shiroProperties) {
         // 可以将securityManager设置为静态单例的, 这样就可以在任何地方获得当前用户:
         //      Subject currentUser = SecurityUtils.getSubject()
         // 但是, Shiro官方建议不将securityManager设置为静态单例的(占用VM)
@@ -57,7 +54,7 @@ public class ShiroConfig {
         // 要求登录时的链接, 默认会自动寻找Web工程根目录下的"/login.html"或"/login.jsp"或"/login"请求
         // 在此处设置后, 会自动给其他默认过滤器(如authc, user等)设置loginUrl属性, 无需重复配置(如下面的
         // formAuthenticationFilter方法不需要设置loginUrl了)
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/login/a");
         // Shiro登录成功后自动跳转到上一个请求路径(如访问某个路径后, 自动跳转到登录页面的那个路径),
         // 若上一个请求是上面的loginUrl或者找不到上一个请求(即session过期), 则该属性生效
         // (此时若不配置该属性, 则默认跳转到项目根路径)
@@ -109,7 +106,6 @@ public class ShiroConfig {
             filters.put(filter[0].trim(), filter[1].trim());
         }
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filters);
-
         log.info("Shiro拦截器工厂类注入成功! ");
         return shiroFilterFactoryBean;
     }
@@ -121,11 +117,9 @@ public class ShiroConfig {
      * @return org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
      */
     @Bean
-    AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager
-                                                                                    securityManager) {
+    AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
         advisor.setSecurityManager(securityManager);
-
         return advisor;
     }
 
@@ -149,7 +143,6 @@ public class ShiroConfig {
     DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
         creator.setProxyTargetClass(true);
-
         return creator;
     }
 
@@ -171,30 +164,26 @@ public class ShiroConfig {
         // 然后可以通过如下代码获得错误类名:
         //      String exceptionClassName = (String) req.getAttribute("authenticationExceptionClassName")
         formAuthenticationFilter.setFailureKeyAttribute("authenticationExceptionClassName");
-
         return formAuthenticationFilter;
     }
 
     /**
      * 安全管理器
      *
-     * @param userRealm                 自定义Realm
+     * @param userRealm               自定义Realm
      * @param ehCacheManager          缓存管理器
      * @param sessionManager          会话管理器
      * @param cookieRememberMeManager RememberMe管理器
      * @return org.apache.shiro.web.mgt.DefaultWebSecurityManager
      */
     @Bean
-    public DefaultWebSecurityManager securityManager(UserRealm userRealm, EhCacheManager ehCacheManager,
-                                                     DefaultWebSessionManager sessionManager,
-                                                     CookieRememberMeManager cookieRememberMeManager) {
+    public DefaultWebSecurityManager securityManager(UserRealm userRealm, EhCacheManager ehCacheManager, DefaultWebSessionManager sessionManager, CookieRememberMeManager cookieRememberMeManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 配置了单个Realm, 也可以用securityManager.setRealms()配置多个
         securityManager.setRealm(userRealm);
         securityManager.setCacheManager(ehCacheManager);
         securityManager.setSessionManager(sessionManager);
         securityManager.setRememberMeManager(cookieRememberMeManager);
-
         return securityManager;
     }
 
@@ -210,7 +199,6 @@ public class ShiroConfig {
         simpleCookie.setHttpOnly(true);
         // 设置此cookie最大存在时间: 30天
         simpleCookie.setMaxAge(2592000);
-
         return simpleCookie;
     }
 
@@ -222,15 +210,12 @@ public class ShiroConfig {
      * @return org.apache.shiro.web.mgt.CookieRememberMeManager
      */
     @Bean
-    public CookieRememberMeManager rememberMeManager(SimpleCookie rememberMeCookie,
-                                                     @Value("${spring.shiro.remember-me.cipher-key}")
-                                                             String cipherKey) {
+    public CookieRememberMeManager rememberMeManager(SimpleCookie rememberMeCookie, @Value("${spring.shiro.remember-me.cipher-key}") String cipherKey) {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         // rememberMeCookie加密的密钥, 建议每个项目都不一样, 默认AES算法, 密钥长度(128 256 512)位
         cookieRememberMeManager.setCipherKey(Base64.decode(cipherKey));
         // 设置对应的cookie
         cookieRememberMeManager.setCookie(rememberMeCookie);
-
         return cookieRememberMeManager;
     }
 
@@ -246,7 +231,6 @@ public class ShiroConfig {
         simpleCookie.setHttpOnly(true);
         // 设置此cookie最大存在时间, 单位为秒, 默认为-1, 代表关闭浏览器, 此cookie就会消失
         simpleCookie.setMaxAge(-1);
-
         return simpleCookie;
     }
 
@@ -263,7 +247,6 @@ public class ShiroConfig {
         // 设置会话验证间隔为30分钟(单位: 毫秒)
         sessionValidationScheduler.setSessionValidationInterval(1800000);
         sessionValidationScheduler.setSessionManager(new DefaultWebSessionManager());
-
         return sessionValidationScheduler;
     }
 
@@ -272,14 +255,12 @@ public class ShiroConfig {
      * 直接废弃了Servlet容器的会话管理
      *
      * @param sessionValidationScheduler 会话验证调度器
-     * @param userSessionDao               自定义的shiro会话的DAO
+     * @param userSessionDao             自定义的shiro会话的DAO
      * @param sessionIdCookie            存储会话ID的Cookie
      * @return org.apache.shiro.web.session.mgt.DefaultWebSessionManager
      */
     @Bean
-    public DefaultWebSessionManager sessionManager(QuartzSessionValidationScheduler sessionValidationScheduler,
-                                                   UserSessionDao userSessionDao,
-                                                   SimpleCookie sessionIdCookie) {
+    public DefaultWebSessionManager sessionManager(QuartzSessionValidationScheduler sessionValidationScheduler, UserSessionDao userSessionDao, SimpleCookie sessionIdCookie) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         // 设置session过期时间为1小时(单位: 毫秒), 默认为30分钟.
         sessionManager.setGlobalSessionTimeout(3600000);
@@ -296,7 +277,6 @@ public class ShiroConfig {
         sessionManager.setSessionIdCookieEnabled(true);
         // 设置SessionIdCookie
         sessionManager.setSessionIdCookie(sessionIdCookie);
-
         return sessionManager;
     }
 
@@ -321,7 +301,6 @@ public class ShiroConfig {
         userRealm.setAuthorizationCachingEnabled(true);
         // 授权信息的缓存名
         userRealm.setAuthorizationCacheName("authorizationCache");
-
         return userRealm;
     }
 
@@ -340,7 +319,6 @@ public class ShiroConfig {
         credentialsMatcher.setHashIterations(HASH_ITERATIONS);
         // 是否使用16进制字符串即toHex()方法加密, false则使用base64加密
         credentialsMatcher.setStoredCredentialsHexEncoded(STORED_CREDENTIALS_HEX_ENCODED);
-
         return credentialsMatcher;
     }
 

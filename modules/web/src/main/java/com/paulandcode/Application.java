@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 /**
  * ServletComponentScan注解后, Servlet, Filter, Listener
- *     可以直接通过@WebServlet, @WebFilter, @WebListener注解自动注册
+ * 可以直接通过@WebServlet, @WebFilter, @WebListener注解自动注册
  *
  * @author paulandcode paulandcode@gmail.com
  * @since 2019/3/27 22:27

@@ -20,8 +20,7 @@ public class HttpUtils {
      * @return javax.servlet.http.HttpServletRequest
      */
     public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
-                .getRequest();
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
     /**
@@ -30,7 +29,6 @@ public class HttpUtils {
      * @return javax.servlet.http.HttpServletResponse
      */
     public static HttpServletResponse getResponse() {
-        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
-                .getResponse();
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
     }
 }

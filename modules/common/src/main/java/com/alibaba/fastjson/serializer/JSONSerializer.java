@@ -15,6 +15,11 @@
  */
 package com.alibaba.fastjson.serializer;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.util.IOUtils;
+import com.paulandcode.utils.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
@@ -24,13 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.GZIPOutputStream;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.util.IOUtils;
-import com.paulandcode.utils.StringUtils;
-
 /**
- * 重写了FastJSON的源码在writeWithFormat方法(323~328行)处做修改
+ * 重写了FastJSON的源码在writeWithFormat方法(325~330行)处做修改
  * 在fastJsonHttpMessageConverters()中定义了全局日期格式化, 但是会覆盖@JSONField的日期格式化
  * 这里修改后, @JSONField的日期格式化会覆盖全局日期格式化
  *
@@ -39,34 +39,34 @@ import com.paulandcode.utils.StringUtils;
  */
 public class JSONSerializer extends SerializeFilterable {
 
-    protected final SerializeConfig                  config;
-    public final SerializeWriter                     out;
+    protected final SerializeConfig config;
+    public final SerializeWriter out;
 
-    private int                                      indentCount = 0;
-    private String                                   indent      = "\t";
+    private int indentCount = 0;
+    private String indent = "\t";
 
-    private String                                   dateFormatPattern;
-    private DateFormat                               dateFormat;
+    private String dateFormatPattern;
+    private DateFormat dateFormat;
 
-    protected IdentityHashMap<Object, SerialContext> references  = null;
-    protected SerialContext                          context;
+    protected IdentityHashMap<Object, SerialContext> references = null;
+    protected SerialContext context;
 
-    protected TimeZone                               timeZone    = JSON.defaultTimeZone;
-    protected Locale                                 locale      = JSON.defaultLocale;
+    protected TimeZone timeZone = JSON.defaultTimeZone;
+    protected Locale locale = JSON.defaultLocale;
 
-    public JSONSerializer(){
+    public JSONSerializer() {
         this(new SerializeWriter(), SerializeConfig.getGlobalInstance());
     }
 
-    public JSONSerializer(SerializeWriter out){
+    public JSONSerializer(SerializeWriter out) {
         this(out, SerializeConfig.getGlobalInstance());
     }
 
-    public JSONSerializer(SerializeConfig config){
+    public JSONSerializer(SerializeConfig config) {
         this(new SerializeWriter(), config);
     }
 
-    public JSONSerializer(SerializeWriter out, SerializeConfig config){
+    public JSONSerializer(SerializeWriter out, SerializeConfig config) {
         this.out = out;
         this.config = config;
     }
@@ -178,7 +178,7 @@ public class JSONSerializer extends SerializeFilterable {
         }
 
         SerialContext rootContext = context;
-        for (;;) {
+        for (; ; ) {
             if (rootContext.parent == null) {
                 break;
             }

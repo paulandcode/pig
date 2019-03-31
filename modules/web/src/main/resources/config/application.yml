@@ -34,13 +34,13 @@ spring:
       cipher-key: 4AvVhmFLUs0KTA3Kprsdag==
     # shiro拦截器会按顺序拦截, /**要设置在最后
     filter-chain:
-    - /** = anon
-#    - /login = authc
-#    - /logout = logout
-#    - /getCaptcha = anon
-#    - /do = anon
-#    - /static/** = perms[abs]
-#    - /** = user
+    #    - /** = anon
+    - /login/a = authc
+    - /logout = logout
+    - /getCaptcha = anon
+    - /do = anon
+    - /static/** = perms[abs]
+    - /** = user
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver

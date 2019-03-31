@@ -2,7 +2,7 @@ package com.paulandcode.system.service;
 
 import com.paulandcode.common.BaseService;
 import com.paulandcode.system.dao.UserDao;
-import com.paulandcode.system.entity.UserEntity;
+import com.paulandcode.system.entity.CoreSysUserEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,19 +12,19 @@ import org.springframework.stereotype.Service;
  * @since 2019/3/26 18:08
  */
 @Service
-public class UserService extends BaseService<UserEntity, UserDao> {
+public class UserService extends BaseService<CoreSysUserEntity, UserDao> {
     /**
      * 通过用户名查询用户
      *
      * @param username 用户名
-     * @return com.paulandcode.system.entity.UserEntity
+     * @return com.paulandcode.system.entity.CoreSysUserEntity
      */
-    public UserEntity queryByUsername(String username) {
+    public CoreSysUserEntity queryByUsername(String username) {
         return dao.queryByUsername(username);
     }
 
     @Override
-    public void insert(UserEntity entity) {
+    public void insert(CoreSysUserEntity entity) {
         super.insert(entity);
     }
 }

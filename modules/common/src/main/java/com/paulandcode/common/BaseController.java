@@ -88,8 +88,8 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
      * 根据主键更新多个, 主键必须传
      *
      * @param updateData 更新数据, 包括:
-     *      entity 更新的实体类, 批量更新的公共内容
-     *      ids 批量更新的主键集合
+     *                   entity 更新的实体类, 批量更新的公共内容
+     *                   ids 批量更新的主键集合
      * @return com.paulandcode.common.R
      */
     @RequestMapping(value = "updateByIds", method = RequestMethod.PUT)
@@ -125,7 +125,7 @@ public abstract class BaseController<E extends BaseEntity, S extends BaseService
     /**
      * 根据参数查询列表, 默认为分页查询, 且没有其他查询条件, 若要加条件, 可在URL上追加
      *
-     * @param page 页码
+     * @param page  页码
      * @param limit 每页条数
      * @return com.paulandcode.common.R
      */

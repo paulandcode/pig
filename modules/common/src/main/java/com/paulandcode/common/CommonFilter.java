@@ -8,13 +8,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 import static com.paulandcode.common.Constant.DEFAULT_CHARSET;
 import static com.paulandcode.common.Constant.TEXT_HTML_UTF8;
 
 /**
- * 通用过滤器, 用来设置编码和打印请求参数
+ * 通用过滤器, 用来设置编码
  * Order(1)主键表示执行顺序, 值越小, 越先执行
  *
  * @author paulandcode paulandcode@gmail.com
@@ -39,7 +38,7 @@ public class CommonFilter implements Filter {
         resp.setCharacterEncoding(DEFAULT_CHARSET);
         // 响应内容类型默认设置为HTML
         resp.setContentType(TEXT_HTML_UTF8);
-        filterChain.doFilter(servletRequest,servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

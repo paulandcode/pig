@@ -25,8 +25,8 @@
 <button onclick="list();">根据参数查询列表</button>
 <br><br>
 <script>
-    var id1 = "d5678282508c4edb88c486f80a197c06";
-    var id2 = "3821f3755f0e481aba3674ff5767c123";
+    var id1 = "0ace87f51da24d0481c89d22b61e1a24";
+    var id2 = "a508bfa3aad84dc1ab52103bd9155bc0";
 
     function create() {
         $.ajax({
@@ -45,9 +45,9 @@
         $.ajax({
             url: "test/createBatch",
             type: "POST",
-            data: JSON.stringify([{name: "张三", age: 19, birthday: "2018-03-06 13:13:02", man: 1},
-                {name: "李四", age: 20, birthday: "2003-03-06 03:23:02", man: 0},
-                {name: "王五", age: 16, birthday: "2013-03-06 01:13:12", man: 1}]),
+            data: JSON.stringify([{name: "张三666", age: 19, birthday: "2018-03-06 13:13:02", man: 1},
+                {name: "李四666", age: 20, birthday: "2003-03-06 03:23:02", man: 0},
+                {name: "王五666", age: 16, birthday: "2013-03-06 01:13:12", man: 1}]),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -104,7 +104,7 @@
             type: "PUT",
             data: JSON.stringify({
                 entity: {
-                    age: 9,
+                    age: 12,
                     birthday: "2028-11-06 13:13:02",
                     man: 0
                 },
@@ -142,7 +142,7 @@
 
     function list() {
         $.ajax({
-            url: "test/list/1/2",
+            url: "test/list/1/10",
             type: "GET",
             dataType: "json",
             success: function (data) {

@@ -35,13 +35,13 @@ public class UserSessionDao extends EnterpriseCacheSessionDAO {
     protected Serializable doCreate(org.apache.shiro.session.Session session) {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
-        realSessionDAO.insert(new SessionEntity(sessionId, JSON.toJSONString(session)));
+        realSessionDAO.insert(new SessionEntity(sessionId.toString(), JSON.toJSONString(session)));
         return sessionId;
     }
 
     @Override
     protected org.apache.shiro.session.Session doReadSession(Serializable sessionId) {
-        return JSON.parseObject(realSessionDAO.selectById(sessionId).getSession(),
+        return JSON.parseObject(realSessionDAO.selectById(sessionId.toString()).getSession(),
                 org.apache.shiro.session.Session.class);
     }
 
@@ -50,11 +50,11 @@ public class UserSessionDao extends EnterpriseCacheSessionDAO {
         if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
             return;
         }
-        realSessionDAO.updateById(new SessionEntity(session.getId(), JSON.toJSONString(session)));
+        realSessionDAO.updateById(new SessionEntity(session.getId().toString(), JSON.toJSONString(session)));
     }
 
     @Override
     protected void doDelete(org.apache.shiro.session.Session session) {
-        realSessionDAO.deleteById(session.getId());
+        realSessionDAO.deleteById(session.getId().toString());
     }
 }
