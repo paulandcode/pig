@@ -106,7 +106,7 @@ public interface BaseDao<E extends BaseEntity> {
         /**
          * 批量插入的字段, 必须在子Dao接口中重新定义定义, 以英文逗号隔开
          */
-        protected String insertBatchColumns = "`id`";
+        protected static String insertBatchColumns = "`id`";
         /**
          * 查询列表时的字段, 默认为全部字段, 会在下面的构造代码块中初始化, 可在子Dao接口中重新定义定义, 以英文逗号隔开
          */

@@ -15,6 +15,7 @@ public interface TestDao extends BaseDao<TestEntity> {
     class Provider extends com.paulandcode.common.BaseDao.Provider<TestEntity> {
         {
             insertBatchColumns = "`id`, `name`, `age`, `birthday`, `man`";
+            tableName = "web_" + tableName;
         }
     }
 }

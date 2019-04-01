@@ -38,6 +38,7 @@ spring:
     - /login/a = authc
     - /logout = logout
     - /getCaptcha = anon
+    - /favicon.ico = anon
     - /do = anon
     - /static/** = perms[abs]
     - /** = user

@@ -11,7 +11,7 @@ import lombok.Data;
  * @since 2019/3/18 16:51
  */
 @Data
-public class CoreSysUserEntity extends BaseEntity {
+public class UserEntity extends BaseEntity {
     private static final long serialVersionUID = -4419074652204830866L;
     /**
      * 用户名

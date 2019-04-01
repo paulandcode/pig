@@ -1,6 +1,6 @@
 package com.paulandcode.shiro.realm;
 
-import com.paulandcode.system.entity.CoreSysUserEntity;
+import com.paulandcode.system.entity.UserEntity;
 import com.paulandcode.system.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
@@ -45,19 +45,19 @@ public class UserRealm extends AuthorizingRealm {
 //            throw new AuthenticationException();??
 //        }
 
-        CoreSysUserEntity coreSysUserEntity = userService.queryByUsername((String) token.getPrincipal());
-        if (coreSysUserEntity == null) {
+        UserEntity userEntity = userService.queryByUsername((String) token.getPrincipal());
+        if (userEntity == null) {
             log.info("帐号不存在! ");
             throw new UnknownAccountException();
         }
-        if (Boolean.TRUE.equals(coreSysUserEntity.getLocked())) {
-            log.info("用户" + coreSysUserEntity.getUsername() + "的账号被锁定! ");
+        if (Boolean.TRUE.equals(userEntity.getLocked())) {
+            log.info("用户" + userEntity.getUsername() + "的账号被锁定! ");
             throw new LockedAccountException();
         }
 
         // 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配, 如果觉得人家的不好可以自定义实现
-        return new SimpleAuthenticationInfo(coreSysUserEntity, coreSysUserEntity.getPassword(),
-                ByteSource.Util.bytes(coreSysUserEntity.getSalt()), getName());
+        return new SimpleAuthenticationInfo(userEntity, userEntity.getPassword(),
+                ByteSource.Util.bytes(userEntity.getSalt()), getName());
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserRealm extends AuthorizingRealm {
             return null;
         }
         // 从身份集合中获取用户账号信息
-        String username = ((CoreSysUserEntity) principals.getPrimaryPrincipal()).getUsername();
+        String username = ((UserEntity) principals.getPrimaryPrincipal()).getUsername();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 查询用户角色并在授权信息中设置角色
 //        authorizationInfo.setRoles(userService.getRoles(username));
