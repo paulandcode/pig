@@ -35,13 +35,12 @@ spring:
     # shiro拦截器会按顺序拦截, /**要设置在最后
     filter-chain:
     #    - /** = anon
-    - /login/a = authc
-    - /logout = logout
-    - /getCaptcha = anon
-    - /favicon.ico = anon
-    - /do = anon
-    - /static/** = perms[abs]
-    - /** = user
+#    - /login/a = authc
+#    - /logout = logout
+#    - /getCaptcha = anon
+#    - /static/** = anon
+#    - /do = anon
+#    - /** = user
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver

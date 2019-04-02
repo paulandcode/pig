@@ -1,33 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>测试页面</title>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>测试</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="lib/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<button onclick="create();">插入单个</button>
-<br><br>
-<button onclick="createBatch();">插入多个</button>
-<br><br>
-<button onclick="deleteById();">根据主键删除单个, 逻辑删除</button>
-<br><br>
-<button onclick="deleteByIds();">根据主键删除多个, 逻辑删除</button>
-<br><br>
-<button onclick="updateById();">根据主键更新单个, 主键必须传</button>
-<br><br>
-<button onclick="updateByIds();">根据主键更新多个, 主键必须传</button>
-<br><br>
-<button onclick="info();">根据主键查询单个</button>
-<br><br>
-<button onclick="selectByIds();">根据主键查询多个</button>
-<br><br>
-<button onclick="list();">根据参数查询列表</button>
-<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6 col-sm-4">111
+        </div>
+        <div class="col-xs-6 col-sm-4">222
+        </div>
+        <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0">333
+        </div>
+    </div>
+
+    <!--<button onclick="create();">插入单个</button>
+    <br><br>
+    <button onclick="createBatch();">插入多个</button>
+    <br><br>
+    <button onclick="deleteById();">根据主键删除单个, 逻辑删除</button>
+    <br><br>
+    <button onclick="deleteByIds();">根据主键删除多个, 逻辑删除</button>
+    <br><br>
+    <button onclick="updateById();">根据主键更新单个, 主键必须传</button>
+    <br><br>
+    <button onclick="updateByIds();">根据主键更新多个, 主键必须传</button>
+    <br><br>
+    <button onclick="info();">根据主键查询单个</button>
+    <br><br>
+    <button onclick="selectByIds();">根据主键查询多个</button>
+    <br><br>
+    <button onclick="list();">根据参数查询列表</button>
+    <br><br>-->
+</div>
+<script src="lib/jquery-3.3.1/jquery.min.js"></script>
+<!-- bootstrap.bundle.min.js除了有bootstrap.js还包括了popper.js -->
+<script src="lib/bootstrap-4.3.1/js/bootstrap.bundle.min.js"></script>
 <script>
+    (function () {
+        var s = document.createElement("script");
+        s.onload = function () {
+            bootlint.showLintReportForCurrentDocument([]);
+        };
+        s.src = "https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";
+        document.body.appendChild(s)
+    })();
+
     var id1 = "0ace87f51da24d0481c89d22b61e1a24";
     var id2 = "a508bfa3aad84dc1ab52103bd9155bc0";
-
     function create() {
         $.ajax({
             url: "test/create",

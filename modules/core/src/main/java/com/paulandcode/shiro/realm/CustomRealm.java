@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2019/3/18 16:43
  */
 @Slf4j
-public class UserRealm extends AuthorizingRealm {
+public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 

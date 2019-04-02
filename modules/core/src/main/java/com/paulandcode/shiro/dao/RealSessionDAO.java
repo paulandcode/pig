@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 import static com.paulandcode.utils.SQLUtils.*;
 
 /**
- * Shiro会话的DAO, 这是个不继承BaseDao的例子
+ * 真正Shiro会话的DAO, 这是个不继承BaseDao的例子
  *
  * @author paulandcode paulandcode@gmail.com
  * @since 2019/3/21 22:32

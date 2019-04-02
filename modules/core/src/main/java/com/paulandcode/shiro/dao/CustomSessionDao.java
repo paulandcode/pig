@@ -19,11 +19,11 @@ import java.io.Serializable;
  * @since 2019/3/21 20:41
  */
 @Component
-public class UserSessionDao extends EnterpriseCacheSessionDAO {
+public class CustomSessionDao extends EnterpriseCacheSessionDAO {
     @Resource
     private RealSessionDAO realSessionDAO;
 
-    public UserSessionDao() {
+    public CustomSessionDao() {
         super();
         // 设置Session的缓存名, 默认是shiro-activeSessionCache
         this.setActiveSessionsCacheName("activeSessionCache");
